@@ -3,6 +3,7 @@ kind: Job
 metadata:
   name: package-check-parallel
 spec:
+  activeDeadlineSeconds: 60
   parallelism: 3
   template:
     spec:

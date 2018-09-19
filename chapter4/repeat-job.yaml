@@ -3,6 +3,7 @@ kind: Job
 metadata:
   name: package-check-repeat
 spec:
+  activeDeadlineSeconds: 60
   completions: 3
   template:
     spec:

@@ -3,6 +3,7 @@ kind: Job
 metadata:
   name: package-check
 spec:
+  activeDeadlineSeconds: 60
   template:
     spec:
       containers:
