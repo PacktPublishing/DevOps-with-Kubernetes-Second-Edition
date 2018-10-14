@@ -102,7 +102,7 @@ data:
       - role: service
 
       relabel_configs:
-      - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_probe]
+      - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_scrape_service_only]
         action: keep
         regex: true
       - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_path]
