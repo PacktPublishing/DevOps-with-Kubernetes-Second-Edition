@@ -44,7 +44,7 @@ apiVersion: v1
 data:
   config.json: |-
     {
-      "sink": "glog"
+      "sink": "stdout"
     }
 kind: ConfigMap
 metadata:

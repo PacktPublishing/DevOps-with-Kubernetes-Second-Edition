@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kibana-config-file
+  namespace: logging
+  labels:
+    app: kibana-logging
+data:
+  kibana.yml: |-
+    server.name: kibana-logging
+    server.host: "0"
