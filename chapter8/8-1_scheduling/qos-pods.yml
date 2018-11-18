@@ -1,0 +1,115 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: besteffort-nothing-specified
+spec:
+  containers:
+  - name: workload
+    image: alpine
+    command:
+    - /bin/bash
+    - -c
+    - sleep 30
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: besteffort-explicit-0-req
+spec:
+  containers:
+  - name: workload
+    image: alpine
+    command:
+    - /bin/bash
+    - -c
+    - sleep 30
+    resources:
+      requests:
+        cpu: 0
+        memory: 0
+      limits:
+        cpu: 0
+        memory: 0
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: burstable-lim-lt-req
+spec:
+  containers:
+  - name: workload
+    image: alpine
+    command:
+    - /bin/bash
+    - -c
+    - sleep 30
+    resources:
+      requests:
+        cpu: 10m
+        memory: 10Mi
+      limits:
+        cpu: 10m
+        memory: 100Mi
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: burstable-partial-req-multi-containers
+spec:
+  containers:
+  - name: workload
+    image: alpine
+    command:
+    - /bin/bash
+    - -c
+    - sleep 30
+    resources:
+      requests:
+        cpu: 10m
+        memory: 10Mi
+      limits:
+        cpu: 10m
+        memory: 100Mi
+  - name: workload2
+    image: alpine
+    command:
+    - /bin/bash
+    - -c
+    - sleep 30
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: guranteed
+spec:
+  containers:
+  - name: workload
+    image: alpine
+    command:
+    - /bin/bash
+    - -c
+    - sleep 30
+    resources:
+      requests:
+        cpu: 10m
+        memory: 100Mi
+      limits:
+        cpu: 10m
+        memory: 100Mi
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: guranteed-lim-only
+spec:
+  containers:
+  - name: workload
+    image: alpine
+    command:
+    - /bin/bash
+    - -c
+    - sleep 30
+    resources:
+      limits:
+        cpu: 10m
+        memory: 100Mi
