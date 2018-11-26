@@ -7,7 +7,7 @@ spec:
   - name: workload
     image: alpine
     command:
-    - /bin/bash
+    - /bin/sh
     - -c
     - sleep 30
 ---
@@ -20,7 +20,7 @@ spec:
   - name: workload
     image: alpine
     command:
-    - /bin/bash
+    - /bin/sh
     - -c
     - sleep 30
     resources:
@@ -40,7 +40,7 @@ spec:
   - name: workload
     image: alpine
     command:
-    - /bin/bash
+    - /bin/sh
     - -c
     - sleep 30
     resources:
@@ -60,7 +60,7 @@ spec:
   - name: workload
     image: alpine
     command:
-    - /bin/bash
+    - /bin/sh
     - -c
     - sleep 30
     resources:
@@ -73,7 +73,7 @@ spec:
   - name: workload2
     image: alpine
     command:
-    - /bin/bash
+    - /bin/sh
     - -c
     - sleep 30
 ---
@@ -86,7 +86,7 @@ spec:
   - name: workload
     image: alpine
     command:
-    - /bin/bash
+    - /bin/sh
     - -c
     - sleep 30
     resources:
@@ -106,7 +106,7 @@ spec:
   - name: workload
     image: alpine
     command:
-    - /bin/bash
+    - /bin/sh
     - -c
     - sleep 30
     resources:
