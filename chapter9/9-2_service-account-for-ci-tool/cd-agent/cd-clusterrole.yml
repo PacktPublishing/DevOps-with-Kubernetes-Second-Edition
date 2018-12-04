@@ -1,0 +1,28 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: cd-role
+rules:
+- apiGroups: ["extensions", "apps"]
+  resources:
+  - deployments
+  - daemonsets
+  - statefulsets
+  - ingresses
+  verbs: ["*"]
+- apiGroups: [""]
+  resources:
+  - namespaces
+  verbs: ["get", "list", "watch"]
+- apiGroups: [""]
+  resources:
+  - pods
+  - services
+  - secrets
+  - persistentvolumeclaims
+  verbs: ["*"]
+- apiGroups: ["batch"]
+  resources:
+  - jobs
+  - cronjobs
+  verbs: ["*"]

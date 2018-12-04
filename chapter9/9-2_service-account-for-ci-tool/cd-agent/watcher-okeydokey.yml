@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: state-watcher
+  namespace: cd
+  labels:
+    app: state-watcher
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: state-watcher
+      target: okeydokey
+  template:
+    metadata:
+      labels:
+        app: state-watcher
+        target: okeydokey
+    spec:
+      serviceAccountName: cd-agent
+      terminationGracePeriodSeconds: 30
+      containers:
+      - name: main
+        image: devopswithkubernetes/watcher
+        imagePullPolicy: Always
+        env:
+        - name: WORK_PATH
+          value: /repo
+        - name: TEMPLATE_PATH
+          value: /repo/deployment
+        - name: REMOTE_GIT_REPO
+          value: https://github.com/DevOps-with-Kubernetes/okeydokey.git
+        - name: WATCH_BRANCH
+          value: config
+        - name: RELEASE_TARGET_NAMESPACE
+          value: default
+        - name: RELEASE_TARGET_CONTROLLER_TEMPLATE
+          value: deployment.yml
+  minReadySeconds: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
