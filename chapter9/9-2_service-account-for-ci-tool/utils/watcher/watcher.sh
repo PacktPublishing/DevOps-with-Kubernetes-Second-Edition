@@ -22,8 +22,14 @@ check_if_git_updated() {
     return 0
 }
 
+
 apply_to_kube() {
-    kubectl apply -f "${TEMPLATE_PATH}"/"${RELEASE_TARGET_CONTROLLER_TEMPLATE}" -n "${RELEASE_TARGET_NAMESPACE}"
+    if [ "${APPLY_FOLDER}" = 1 ]; then
+        APPLY_TARGET="${TEMPLATE_PATH}"
+    else
+        APPLY_TARGET="${TEMPLATE_PATH}"/"${RELEASE_TARGET_CONTROLLER_TEMPLATE}"
+    fi
+    kubectl apply -f "${APPLY_TARGET}" -n "${RELEASE_TARGET_NAMESPACE}"
     kubectl rollout status -f "${TEMPLATE_PATH}"/"${RELEASE_TARGET_CONTROLLER_TEMPLATE}" -n "${RELEASE_TARGET_NAMESPACE}" --timeout 5m
 }
 
@@ -34,6 +40,7 @@ REMOTE_GIT_REPO=${REMOTE_GIT_REPO}
 WATCH_BRANCH=${WATCH_BRANCH}
 
 # for kubectl
+APPLY_FOLDER=${APPLY_FOLDER:-1}
 RELEASE_TARGET_NAMESPACE=${RELEASE_TARGET_NAMESPACE}
 RELEASE_TARGET_CONTROLLER_TEMPLATE=${RELEASE_TARGET_CONTROLLER_TEMPLATE}
 
@@ -49,9 +56,14 @@ fi
 cd "${TEMPLATE_PATH}"
 
 while :; do
-    git checkout "${WATCH_BRANCH}" || true
-    check_if_git_updated
-    if [ "$?" = 1 ]; then
+    # first run check
+    RES=$(git checkout "${WATCH_BRANCH}" 2>&1)
+    if [[ "$RES" =~ "Switched to a new branch" ]]; then
+        apply_to_kube
+    fi
+
+    GIT_UPDATED=$(check_if_git_updated)
+    if [ "$GIT_UPDATED" = 1 ]; then
         echo "$(date): Update detected. Applying..."
         git pull origin --rebase=preserve --allow-unrelated-histories
         apply_to_kube
