@@ -1,0 +1,8 @@
+apiVersion: devops.kubernetes.com/v1alpha1
+kind: Book
+metadata:
+  name: book-object
+spec:
+  # Add fields here
+  name: DevOps-with-Kubernetes
+  edition: second
