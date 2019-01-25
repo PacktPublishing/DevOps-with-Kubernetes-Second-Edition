@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata: 
+  name: nginx
+  labels:
+    project: devops-with-kubernetes
+    app: nginx
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    volumeMounts:
+      - mountPath: /var/log/nginx
+        name: nginx-log
+  volumes:
+  - name: nginx-log
+    persistentVolumeClaim:
+      claimName: "pvc-a"
+  nodeSelector:
+    failure-domain.beta.kubernetes.io/zone: us-east-1a
+
