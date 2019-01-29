@@ -7,9 +7,18 @@ This is the code repository for [DevOps with Kubernetes, Second Edition](https:/
 
 ## What is this book about?
 
+Kubernetes has been widely adopted across public clouds and on-premise data centers. As we're living in an era of microservices, knowing how to use and manage Kubernetes is an essential skill for everyone in the IT industry.
 
 This book covers the following exciting features:
 
+* Learn fundamental and advanced DevOps skills and tools 
+* Get a comprehensive understanding of containers
+* Dockerize an application
+* Administrate and manage Kubernetes cluster
+* Extend the cluster functionality with custom resources
+* Understand Kubernetes network and service mesh 
+* Implement Kubernetes logging and monitoring
+* Manage Kubernetes services in Amazon Web Services, Google Cloud Platform,and Microsoft Azure
 
 If you feel this book is for you, get your [copy](https://www.amazon.com/dp/1-789-53399-6) today!
 
