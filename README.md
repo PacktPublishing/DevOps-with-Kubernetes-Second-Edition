@@ -1,6 +1,6 @@
 # DevOps with Kubernetes, Second Edition
 
-<a href="https://www.packtpub.com/virtualization-and-cloud/devops-kubernetes-second-edition?utm_source=github&utm_medium=repository&utm_campaign="><img src="" alt="" height="256px" align="right"></a>
+<a href="https://www.packtpub.com/virtualization-and-cloud/devops-kubernetes-second-edition?utm_source=github&utm_medium=repository&utm_campaign="><img src="https://dz13w8afd47il.cloudfront.net/sites/default/files/imagecache/ppv4_main_book_cover/B11687_MockupCover.png" alt="DevOps with Kubernetes, Second Edition" height="256px" align="right"></a>
 
 This is the code repository for [DevOps with Kubernetes, Second Edition](https://www.packtpub.com/virtualization-and-cloud/devops-kubernetes-second-edition?utm_source=github&utm_medium=repository&utm_campaign=), published by Packt.
 
