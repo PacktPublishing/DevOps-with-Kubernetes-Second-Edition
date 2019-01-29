@@ -6,7 +6,7 @@ This is the code repository for [](https://www.packtpub.com/virtualization-and-c
 
 
 ## What is this book about?
-0
+
 
 This book covers the following exciting features:
 
