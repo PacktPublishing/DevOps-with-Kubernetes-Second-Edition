@@ -41,7 +41,12 @@ With the following software and hardware list you can run all code files present
 ### Software and Hardware List
 | Chapter  | Software required                    | OS required                                                          |
 | -------- | ----------------------------------------------------------------------------------------------------------- | ----------------------------------- |
-| 1-12     | kubectl, AWSCLI, Cloud SDK(gcloud), kops (Kubernetes Operations), Docker, VirtualBox, Python latest version | Debian GNU/Linux 8 (jessie), Ubuntu 16.04 or later, CentOS 7.2 or later, RHEL7 or later |
+| 2        |docker 17.05.0-ce +                   | Linux: Debian 8+, Ubuntu 16.04+, CentOS 7.2+, RHEL7+, macOS 10.10+   |
+| 3        | minikube VirtualBox                  | Any OS                                                               |
+| 3        | kubectl                              | Any OS                                                               |
+| 10       | AWS CLI                              | Any OS with Python 2.6.5+ or 3.3+                                    |
+| 11       | Cloud SDK                            | Any OS with Python 2.7.x                                             |
+|12        |Azure CLI                             |Any OS with Python 3+                                                 |
 
 
 We also provide a PDF file that has color images of the screenshots/diagrams used in this book. [Click here to download it](http://www.packtpub.com/sites/default/files/downloads/9781789533996_ColorImages.pdf).
