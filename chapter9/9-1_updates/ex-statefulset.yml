@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: my-ss
+spec:
+  serviceName: my-ss-svc
+  replicas: 3
+  selector:
+    matchLabels:
+      app: my-ss
+  template:
+    metadata:
+      labels:
+        app: my-ss
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: app
+        image: alpine:3.7
+        ports:
+        - containerPort: 5000
+        command:
+        - /bin/sh
+        - -c
+        - >
+          if [ ! -f /data/hostname ]; then echo $(hostname) > /data/hostname ;fi ;
+          while true; do
+            echo -e "HTTP/1.1 200 OK\n\n$(hostname) with pv for $(cat /data/hostname)-$(cat /etc/alpine-release) is running..." | nc -w 1 -lp 5000
+          done
+        env:
+        - name: DEMO
+          value: "0"
+        volumeMounts:
+        - mountPath: /data
+          name: ss-data
+  volumeClaimTemplates:
+  - metadata:
+      name: ss-data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi
+  updateStrategy:
+    type: RollingUpdate
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: my-ss-svc
+  labels:
+    app: my-ss
+spec:
+  selector:
+    app: my-ss
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000
+      name: http

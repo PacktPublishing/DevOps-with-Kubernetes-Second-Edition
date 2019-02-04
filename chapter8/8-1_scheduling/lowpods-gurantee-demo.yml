@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lowpods
+  labels:
+    app: lowpods
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: lowpods
+  template:
+    metadata:
+      labels:
+        app: lowpods
+    spec:
+      terminationGracePeriodSeconds: 60
+      priorityClassName: low-prio
+      containers:
+      - image: busybox
+        name: myapp
+        command: ["sleep", "300"]
+        resources:
+          requests:
+            cpu: 50m
+            memory: 800Mi
+          limits:
+            cpu: 50m
+            memory: 800Mi
+      # affinity:
+      #   nodeAffinity:
+      #     requiredDuringSchedulingIgnoredDuringExecution:
+      #       nodeSelectorTerms:
+      #       - matchExpressions:
+      #         - key: kubernetes.io/hostname
+      #           operator: In
+      #           values: ["minikube"]

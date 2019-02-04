@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sample-webhook-service
+  labels:
+    app: sample-webhook-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sample-webhook-service
+  template:
+    metadata:
+      labels:
+        app: sample-webhook-service
+    spec:
+      containers:
+      - name: sample-webhook-service
+        image: devopswithkubernetes/sample-webhook-service:latest
+        imagePullPolicy: Always
+      #imagePullSecrets:
+      #  - name: us-east-1-ecr-registry
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sample-webhook-service-svc
+  labels:
+    app: sample-webhook-service
+spec:
+  ports:
+  - port: 443
+    targetPort: 443
+  selector:
+    app: sample-webhook-service

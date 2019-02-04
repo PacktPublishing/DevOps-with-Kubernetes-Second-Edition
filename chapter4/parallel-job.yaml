@@ -1,0 +1,14 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: package-check-parallel
+spec:
+  activeDeadlineSeconds: 60
+  parallelism: 3
+  template:
+    spec:
+      containers:
+      - name: package-check-parallel
+        image: ubuntu
+        command: ["dpkg-query", "-l"]
+      restartPolicy: Never

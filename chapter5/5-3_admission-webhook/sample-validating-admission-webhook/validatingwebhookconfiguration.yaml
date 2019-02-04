@@ -1,0 +1,25 @@
+# CA_BUNDLE=`kubectl get configmap -n kube-system extension-apiserver-authentication -o=jsonpath='{.data.client-ca-file}' | base64 | tr -d '\n'`
+apiVersion: admissionregistration.k8s.io/v1beta1
+kind: MutatingWebhookConfiguration
+metadata:
+  name: sample-webhook-service
+  labels:
+    app: sample-webhook-service
+webhooks:
+  - name: devops.kubernetes.com
+    rules:
+      - apiGroups:
+          - ""
+        apiVersions:
+          - v1
+        operations:
+          - CREATE
+        resources:
+          - pods
+    failurePolicy: Fail
+    clientConfig:
+      service:
+        name: sample-webhook-service-svc
+        namespace: default
+        path: "/"
+      caBundle: ${CA_BUNDLE}

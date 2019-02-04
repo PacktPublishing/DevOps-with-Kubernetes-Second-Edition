@@ -1,0 +1,9 @@
+FROM python:3-slim-stretch
+
+EXPOSE 5000
+RUN apt-get update && apt-get install -y --no-install-recommends \
+	 procps \
+  && rm -rf /var/lib/apt/lists/* \
+  && apt-get clean
+ADD app.py .
+CMD [ "python3", "-u", "app.py" ]

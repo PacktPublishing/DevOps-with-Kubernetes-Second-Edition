@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: someworkload
+  labels:
+    app: someworkload
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: someworkload
+  template:
+    metadata:
+      labels:
+        app: someworkload
+    spec:
+      terminationGracePeriodSeconds: 30
+      containers:
+      - image: devopswithkubernetes/stress
+        name: myapp
+        command:
+        - /bin/sh
+        - -c
+        - |
+          /usr/bin/stress --vm-keep --vm 1 --vm-bytes 64M --timeout 180
+          sleep 3000
+        resources:
+          requests:
+            cpu: 100m
+          limits:
+            cpu: 150m
+---
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: someworkload-scaler
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: someworkload
+  minReplicas: 0
+  maxReplicas: 5
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 50

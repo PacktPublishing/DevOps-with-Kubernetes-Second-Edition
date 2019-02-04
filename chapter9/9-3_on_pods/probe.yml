@@ -1,0 +1,76 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      containers:
+      - name: main
+        image: devopswithkubernetes/okeydokey:v0.0.4
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 5000
+          periodSeconds: 5
+          initialDelaySeconds: 10
+          successThreshold: 2
+          failureThreshold: 3
+          timeoutSeconds: 1
+        command:
+        - /bin/sh
+        - -c
+        - |
+          echo "$(date +%s.%N) - [sys] pod is created."
+          sleep 6
+          python3 -u app.py & PID=$!
+          sleep 17
+          kill -15 $PID
+          sleep 1
+          i=0
+          while :; do
+            echo -e "HTTP/1.1 500" | nc -w 30 -lp 5000 > request 2>/dev/null
+            if [[ "$(cat request)" != "GET /from-tester" ]]; then
+              i=$((i+1))
+              echo "$(date +%s.%N) - [500] readiness test fail#$i"
+            fi
+          done
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: my-app-svc
+  labels:
+    app: my-app
+spec:
+  selector:
+    app: my-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000
+      name: http
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: tester
+spec:
+  containers:
+  - name: main
+    image: devopswithkubernetes/okeydokey:v0.0.4
+    command:
+    - /bin/sh
+    - -c
+    - |
+      while :; do
+        printf "$(date +%s.%N) - $(echo -e "GET /from-tester" | nc -w 2 my-app-svc 80 2>&1 || echo "timed out")\n"
+        sleep 4
+      done

@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: highpods
+  labels:
+    app: highpods
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: highpods
+  template:
+    metadata:
+      labels:
+        app: highpods
+    spec:
+      terminationGracePeriodSeconds: 60
+      priorityClassName: high-prio
+      containers:
+      - image: busybox
+        name: myapp
+        command: ["sleep", "300"]
+        resources:
+          requests:
+            memory: 80Mi
+      # affinity:
+      #   nodeAffinity:
+      #     requiredDuringSchedulingIgnoredDuringExecution:
+      #       nodeSelectorTerms:
+      #       - matchExpressions:
+      #         - key: kubernetes.io/hostname
+      #           operator: In
+      #           values: ["minikube"]

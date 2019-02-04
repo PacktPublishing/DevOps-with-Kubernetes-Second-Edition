@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-app-with-pause
+spec:
+  shareProcessNamespace: true
+  containers:
+  - name: my-app
+    image: devopswithkubernetes/ch93:exec-sh

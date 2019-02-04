@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-app
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: app
+        image: alpine:3.7
+        ports:
+        - containerPort: 5000
+        command:
+        - /bin/sh
+        - -c
+        - >
+          while true; do
+            echo -e "HTTP/1.1 200 OK\n\n$(hostname)-v-$(cat /etc/alpine-release) is running..." | nc -w 1 -lp 5000
+          done
+        env:
+        - name: DEMO
+          value: "0"
+  minReadySeconds: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 2
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: my-app-svc
+  labels:
+    app: my-app
+spec:
+  selector:
+    app: my-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000
+      name: http

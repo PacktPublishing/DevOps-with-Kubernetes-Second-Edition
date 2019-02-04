@@ -1,0 +1,31 @@
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  name: books.devops.kubernetes.com
+spec:
+  group: devops.kubernetes.com
+  version: v1alpha1
+  scope: Namespaced
+  names:
+    plural: books
+    singular: book
+    kind: Book
+    shortNames:
+    - bk
+  validation:
+    openAPIV3Schema:
+      required: ["spec"]
+      properties:
+        spec:
+          required: ["name", "edition"]
+          properties:
+            name:
+              type: string
+              minimum: 50
+            edition:
+              type: string
+              minimum: 10
+            chapter:
+              type: integer
+              minimum: 1
+              maximum: 2
